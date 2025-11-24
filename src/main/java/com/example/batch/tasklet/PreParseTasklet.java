@@ -1,5 +1,8 @@
 package com.example.batch.tasklet;
 
+import lombok.extern.slf4j.Slf4j;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.batch.core.StepContribution;
 import org.springframework.batch.core.scope.context.ChunkContext;
 import org.springframework.batch.core.step.tasklet.Tasklet;
@@ -11,6 +14,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.List;
 
+@Slf4j
 @Component
 public class PreParseTasklet implements Tasklet {
 
@@ -19,6 +23,7 @@ public class PreParseTasklet implements Tasklet {
 
     @Override
     public org.springframework.batch.repeat.RepeatStatus execute(StepContribution contribution, ChunkContext chunkContext) throws Exception {
+        log.info("Starting PreParseTasklet for file: {}", inputFilePath);
         Path path = Path.of(inputFilePath);
         List<String> lines = Files.readAllLines(path, StandardCharsets.UTF_8)
                 .stream().map(s -> s.replace("\r", "").replace("\n", ""))

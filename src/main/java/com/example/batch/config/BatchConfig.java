@@ -7,11 +7,13 @@ import com.example.batch.tasklet.FinalizeXmlTasklet;
 import com.example.batch.tasklet.ParseAndWriteXmlTasklet;
 import com.example.batch.tasklet.OrderParseAndWriteXmlTasklet;
 import com.example.batch.tasklet.PreParseTasklet;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.batch.core.Job;
 import org.springframework.batch.core.Step;
 import org.springframework.batch.core.job.builder.JobBuilder;
 import org.springframework.batch.core.repository.JobRepository;
 import org.springframework.batch.core.step.builder.StepBuilder;
+import org.springframework.batch.core.launch.support.RunIdIncrementer;
 import org.springframework.batch.item.ItemProcessor;
 import org.springframework.batch.item.ItemReader;
 import org.springframework.batch.item.ItemWriter;
@@ -21,11 +23,13 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.transaction.PlatformTransactionManager;
 
 @Configuration
+@Slf4j
 public class BatchConfig {
 
     @Bean
     public Job parseToXmlJob(JobRepository jobRepository, Step parseToXmlStep) {
         return new JobBuilder("parseToXmlJob", jobRepository)
+                .incrementer(new RunIdIncrementer())
                 .start(parseToXmlStep)
                 .build();
     }
@@ -42,6 +46,7 @@ public class BatchConfig {
     @Bean
     public Job parseOrderToXmlJob(JobRepository jobRepository, Step parseOrderToXmlStep) {
         return new JobBuilder("parseOrderToXmlJob", jobRepository)
+                .incrementer(new RunIdIncrementer())
                 .start(parseOrderToXmlStep)
                 .build();
     }
@@ -93,6 +98,7 @@ public class BatchConfig {
             Step detailChunkStep,
             Step finalizeXmlStep) {
         return new JobBuilder("parseToXmlChunkJob", jobRepository)
+                .incrementer(new RunIdIncrementer())
                 .start(preParseStep)
                 .next(detailChunkStep)
                 .next(finalizeXmlStep)

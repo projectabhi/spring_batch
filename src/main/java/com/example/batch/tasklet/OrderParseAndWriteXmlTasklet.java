@@ -22,10 +22,10 @@ import java.util.List;
 @Component
 public class OrderParseAndWriteXmlTasklet implements Tasklet {
 
-    @Value("${input.file}")
+    @Value("${order.input.file}")
     private String inputFilePath;
 
-    @Value("${output.file}")
+    @Value("${order.output.file}")
     private String outputFilePath;
 
     @Override
