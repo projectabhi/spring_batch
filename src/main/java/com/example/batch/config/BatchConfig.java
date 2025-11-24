@@ -5,6 +5,7 @@ import com.example.batch.processor.DetailItemProcessor;
 import com.example.batch.reader.DetailItemReader;
 import com.example.batch.tasklet.FinalizeXmlTasklet;
 import com.example.batch.tasklet.ParseAndWriteXmlTasklet;
+import com.example.batch.tasklet.OrderParseAndWriteXmlTasklet;
 import com.example.batch.tasklet.PreParseTasklet;
 import org.springframework.batch.core.Job;
 import org.springframework.batch.core.Step;
@@ -34,6 +35,22 @@ public class BatchConfig {
             PlatformTransactionManager transactionManager,
             ParseAndWriteXmlTasklet tasklet) {
         return new StepBuilder("parseToXmlStep", jobRepository)
+                .tasklet(tasklet, transactionManager)
+                .build();
+    }
+
+    @Bean
+    public Job parseOrderToXmlJob(JobRepository jobRepository, Step parseOrderToXmlStep) {
+        return new JobBuilder("parseOrderToXmlJob", jobRepository)
+                .start(parseOrderToXmlStep)
+                .build();
+    }
+
+    @Bean
+    public Step parseOrderToXmlStep(JobRepository jobRepository,
+            PlatformTransactionManager transactionManager,
+            OrderParseAndWriteXmlTasklet tasklet) {
+        return new StepBuilder("parseOrderToXmlStep", jobRepository)
                 .tasklet(tasklet, transactionManager)
                 .build();
     }
