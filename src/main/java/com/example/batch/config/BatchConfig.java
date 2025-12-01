@@ -104,23 +104,4 @@ public class BatchConfig {
         .next(finalizeXmlStep)
         .build();
   }
-
-  // Removed duplicate bean definition to avoid conflict with @Component
-  // DetailItemReader
-  // @Bean
-  // public ItemReader<Detail> detailItemReader(DetailItemReader reader) {
-  // return reader;
-  // }
-
-  // @Bean
-  // public ItemProcessor<Detail, Detail> detailItemProcessor(DetailItemProcessor
-  // processor) {
-  // return processor;
-  // }
-
-  // @Bean
-  // public ItemWriter<Detail> detailItemWriter(StaxEventItemWriter<Detail>
-  // writer) {
-  // return writer;
-  // }
 }
