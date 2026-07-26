@@ -22,7 +22,7 @@ public class JobScheduler {
     this.jobLocator = jobLocator;
   }
 
-  @Scheduled(cron = "${cron.parseToXmlChunkJob}")
+  // @Scheduled(cron = "${cron.parseToXmlChunkJob}")
   public void runParseToXmlChunkJob() throws Exception {
     logger.info("Triggering parseToXmlChunkJob");
     JobParameters params =
@@ -36,7 +36,7 @@ public class JobScheduler {
     logger.info("Triggering parseOrderToXmlJob");
     JobParameters params =
         new JobParametersBuilder().addLong("time", System.currentTimeMillis()).toJobParameters();
-    Job job = jobLocator.getJob("parseOrderToXmlJob");
+    Job job = jobLocator.getJob("partitionedCsvJob");
     jobLauncher.run(job, params);
   }
 }
