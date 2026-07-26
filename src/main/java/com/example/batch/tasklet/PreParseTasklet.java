@@ -4,12 +4,14 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.List;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.batch.core.StepContribution;
 import org.springframework.batch.core.scope.context.ChunkContext;
 import org.springframework.batch.core.step.tasklet.Tasklet;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
+@Slf4j
 @Component
 public class PreParseTasklet implements Tasklet {
 
@@ -19,6 +21,7 @@ public class PreParseTasklet implements Tasklet {
   @Override
   public org.springframework.batch.repeat.RepeatStatus execute(
       StepContribution contribution, ChunkContext chunkContext) throws Exception {
+    log.info("Starting PreParseTasklet for file: {}", inputFilePath);
     Path path = Path.of(inputFilePath);
     List<String> lines =
         Files.readAllLines(path, StandardCharsets.UTF_8).stream()
